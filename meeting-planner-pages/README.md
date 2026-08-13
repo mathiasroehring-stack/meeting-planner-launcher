@@ -6,7 +6,7 @@ Static meeting planner that opens [timeanddate.com](https://www.timeanddate.com/
 
 After the first successful deploy, the app is published at:
 
-**https://mathias_roehring.github.io/meeting-planner-launcher/**
+**https://mathiasroehring-stack.github.io/meeting-planner-launcher/**
 
 (GitHub Pages URL for the `main` branch workflow in repo `meeting-planner-launcher`.)
 

@@ -1,0 +1,538 @@
+[
+  {
+    "id": 5,
+    "name": "Adelaide",
+    "path": "australia/adelaide",
+    "lat": -34.9281805,
+    "lng": 138.5999312,
+    "tz": "Australia/Adelaide"
+  },
+  {
+    "id": 16,
+    "name": "Amsterdam",
+    "path": "netherlands/amsterdam",
+    "lat": 52.3730796,
+    "lng": 4.8924534,
+    "tz": "Europe/Amsterdam"
+  },
+  {
+    "id": 25,
+    "name": "Atlanta",
+    "path": "usa/atlanta",
+    "lat": 33.7544657,
+    "lng": -84.3898151,
+    "tz": "America/New_York"
+  },
+  {
+    "id": 176,
+    "name": "Auckland",
+    "path": "new-zealand/auckland",
+    "lat": -36.8509,
+    "lng": 174.7645,
+    "tz": "Pacific/Auckland"
+  },
+  {
+    "id": 24,
+    "name": "Austin",
+    "path": "usa/austin",
+    "lat": 30.2711286,
+    "lng": -97.7436995,
+    "tz": "America/Chicago"
+  },
+  {
+    "id": 104,
+    "name": "Bangalore",
+    "path": "india/bangalore",
+    "lat": 12.9716,
+    "lng": 77.5946,
+    "tz": "Asia/Kolkata"
+  },
+  {
+    "id": 33,
+    "name": "Beijing",
+    "path": "china/beijing",
+    "lat": 39.9042,
+    "lng": 116.4074,
+    "tz": "Asia/Shanghai"
+  },
+  {
+    "id": 37,
+    "name": "Berlin",
+    "path": "germany/berlin",
+    "lat": 52.52,
+    "lng": 13.405,
+    "tz": "Europe/Berlin"
+  },
+  {
+    "id": 41,
+    "name": "Bogota",
+    "path": "colombia/bogota",
+    "lat": 4.6533817,
+    "lng": -74.0836331,
+    "tz": "America/Bogota"
+  },
+  {
+    "id": 43,
+    "name": "Boston",
+    "path": "usa/boston",
+    "lat": 42.3588336,
+    "lng": -71.0578303,
+    "tz": "America/New_York"
+  },
+  {
+    "id": 47,
+    "name": "Brisbane",
+    "path": "australia/brisbane",
+    "lat": -27.4689623,
+    "lng": 153.0235009,
+    "tz": "Australia/Brisbane"
+  },
+  {
+    "id": 48,
+    "name": "Brussels",
+    "path": "belgium/brussels",
+    "lat": 50.8467372,
+    "lng": 4.352493,
+    "tz": "Europe/Brussels"
+  },
+  {
+    "id": 50,
+    "name": "Budapest",
+    "path": "hungary/budapest",
+    "lat": 47.4813896,
+    "lng": 19.1457723,
+    "tz": "Europe/Budapest"
+  },
+  {
+    "id": 55,
+    "name": "Calgary",
+    "path": "canada/calgary",
+    "lat": 51.0456064,
+    "lng": -114.057541,
+    "tz": "America/Edmonton"
+  },
+  {
+    "id": 64,
+    "name": "Chicago",
+    "path": "usa/chicago",
+    "lat": 41.8781,
+    "lng": -87.6298,
+    "tz": "America/Chicago"
+  },
+  {
+    "id": 951,
+    "name": "Christchurch",
+    "path": "new-zealand/christchurch",
+    "lat": -43.532,
+    "lng": 172.636,
+    "tz": "Pacific/Auckland"
+  },
+  {
+    "id": 69,
+    "name": "Copenhagen",
+    "path": "denmark/copenhagen",
+    "lat": 55.6867243,
+    "lng": 12.5700724,
+    "tz": "Europe/Copenhagen"
+  },
+  {
+    "id": 70,
+    "name": "Dallas",
+    "path": "usa/dallas",
+    "lat": 32.7762719,
+    "lng": -96.7968559,
+    "tz": "America/Chicago"
+  },
+  {
+    "id": 771,
+    "name": "Delhi",
+    "path": "india/delhi",
+    "lat": 28.6328027,
+    "lng": 77.2197713,
+    "tz": "Asia/Kolkata"
+  },
+  {
+    "id": 75,
+    "name": "Denver",
+    "path": "usa/denver",
+    "lat": 39.7392364,
+    "lng": -104.984862,
+    "tz": "America/Denver"
+  },
+  {
+    "id": 166,
+    "name": "Dubai",
+    "path": "uae/dubai",
+    "lat": 25.2048,
+    "lng": 55.2708,
+    "tz": "Asia/Dubai"
+  },
+  {
+    "id": 175,
+    "name": "Dublin",
+    "path": "ireland/dublin",
+    "lat": 53.3498,
+    "lng": -6.2603,
+    "tz": "Europe/Dublin"
+  },
+  {
+    "id": 304,
+    "name": "Edinburgh",
+    "path": "uk/edinburgh",
+    "lat": 55.9533456,
+    "lng": -3.1883749,
+    "tz": "Europe/London"
+  },
+  {
+    "id": 307,
+    "name": "Hamburg",
+    "path": "germany/hamburg",
+    "lat": 53.5501721,
+    "lng": 10.0013165,
+    "tz": "Europe/Berlin"
+  },
+  {
+    "id": 101,
+    "name": "Helsinki",
+    "path": "finland/helsinki",
+    "lat": 60.1666204,
+    "lng": 24.9435408,
+    "tz": "Europe/Helsinki"
+  },
+  {
+    "id": 218,
+    "name": "Ho Chi Minh",
+    "path": "vietnam/ho-chi-minh",
+    "lat": 10.7737261,
+    "lng": 106.7166008,
+    "tz": "Asia/Ho_Chi_Minh"
+  },
+  {
+    "id": 144,
+    "name": "Hong Kong",
+    "path": "china/hong-kong",
+    "lat": 22.3193,
+    "lng": 114.1694,
+    "tz": "Asia/Hong_Kong"
+  },
+  {
+    "id": 108,
+    "name": "Jakarta",
+    "path": "indonesia/jakarta",
+    "lat": -6.1754049,
+    "lng": 106.827168,
+    "tz": "Asia/Jakarta"
+  },
+  {
+    "id": 110,
+    "name": "Jerusalem",
+    "path": "israel/jerusalem",
+    "lat": 31.7788472,
+    "lng": 35.2257856,
+    "tz": "Asia/Jerusalem"
+  },
+  {
+    "id": 111,
+    "name": "Johannesburg",
+    "path": "south-africa/johannesburg",
+    "lat": -26.205,
+    "lng": 28.049722,
+    "tz": "Africa/Johannesburg"
+  },
+  {
+    "id": 367,
+    "name": "Kyiv",
+    "path": "ukraine/kyiv",
+    "lat": 50.4500336,
+    "lng": 30.5241361,
+    "tz": "Europe/Kyiv"
+  },
+  {
+    "id": 125,
+    "name": "Lagos",
+    "path": "nigeria/lagos",
+    "lat": 6.4550575,
+    "lng": 3.3941795,
+    "tz": "Africa/Lagos"
+  },
+  {
+    "id": 136,
+    "name": "London",
+    "path": "uk/london",
+    "lat": 51.5074,
+    "lng": -0.1278,
+    "tz": "Europe/London"
+  },
+  {
+    "id": 137,
+    "name": "Los Angeles",
+    "path": "usa/los-angeles",
+    "lat": 34.0536909,
+    "lng": -118.242766,
+    "tz": "America/Los_Angeles"
+  },
+  {
+    "id": 333,
+    "name": "Lyon",
+    "path": "france/lyon",
+    "lat": 45.7578137,
+    "lng": 4.8320114,
+    "tz": "Europe/Paris"
+  },
+  {
+    "id": 145,
+    "name": "Manila",
+    "path": "philippines/manila",
+    "lat": 14.5904492,
+    "lng": 120.9803621,
+    "tz": "Asia/Manila"
+  },
+  {
+    "id": 330,
+    "name": "Marseille",
+    "path": "france/marseille",
+    "lat": 43.2963986,
+    "lng": 5.3777888,
+    "tz": "Europe/Paris"
+  },
+  {
+    "id": 152,
+    "name": "Melbourne",
+    "path": "australia/melbourne",
+    "lat": -37.8136,
+    "lng": 144.9631,
+    "tz": "Australia/Melbourne"
+  },
+  {
+    "id": 156,
+    "name": "Miami",
+    "path": "usa/miami",
+    "lat": 25.7741566,
+    "lng": -80.1935973,
+    "tz": "America/New_York"
+  },
+  {
+    "id": 196,
+    "name": "Mumbai",
+    "path": "india/mumbai",
+    "lat": 19.076,
+    "lng": 72.8777,
+    "tz": "Asia/Kolkata"
+  },
+  {
+    "id": 179,
+    "name": "New York",
+    "path": "usa/new-york",
+    "lat": 40.7127281,
+    "lng": -74.0060152,
+    "tz": "America/New_York"
+  },
+  {
+    "id": 671,
+    "name": "Osaka",
+    "path": "japan/osaka",
+    "lat": 34.6937569,
+    "lng": 135.5014539,
+    "tz": "Asia/Tokyo"
+  },
+  {
+    "id": 188,
+    "name": "Ottawa",
+    "path": "canada/ottawa",
+    "lat": 45.4208777,
+    "lng": -75.6901106,
+    "tz": "America/Toronto"
+  },
+  {
+    "id": 195,
+    "name": "Paris",
+    "path": "france/paris",
+    "lat": 48.8566,
+    "lng": 2.3522,
+    "tz": "Europe/Paris"
+  },
+  {
+    "id": 197,
+    "name": "Phoenix",
+    "path": "usa/phoenix",
+    "lat": 33.4484367,
+    "lng": -112.074141,
+    "tz": "America/Phoenix"
+  },
+  {
+    "id": 202,
+    "name": "Portland",
+    "path": "usa/portland-or",
+    "lat": 45.5202471,
+    "lng": -122.674194,
+    "tz": "America/Los_Angeles"
+  },
+  {
+    "id": 204,
+    "name": "Prague",
+    "path": "czech-republic/prague",
+    "lat": 50.0874654,
+    "lng": 14.4212535,
+    "tz": "Europe/Prague"
+  },
+  {
+    "id": 1038,
+    "name": "Pune",
+    "path": "india/pune",
+    "lat": 18.5213738,
+    "lng": 73.8545071,
+    "tz": "Asia/Kolkata"
+  },
+  {
+    "id": 214,
+    "name": "Riyadh",
+    "path": "saudi-arabia/riyadh",
+    "lat": 24.638916,
+    "lng": 46.7160104,
+    "tz": "Asia/Riyadh"
+  },
+  {
+    "id": 770,
+    "name": "San Diego",
+    "path": "usa/san-diego",
+    "lat": 32.7157,
+    "lng": -117.1611,
+    "tz": "America/Los_Angeles"
+  },
+  {
+    "id": 139,
+    "name": "San Francisco",
+    "path": "usa/san-francisco",
+    "lat": 37.7749,
+    "lng": -122.4194,
+    "tz": "America/Los_Angeles"
+  },
+  {
+    "id": 232,
+    "name": "Santiago",
+    "path": "chile/santiago",
+    "lat": -33.4489,
+    "lng": -70.6693,
+    "tz": "America/Santiago"
+  },
+  {
+    "id": 234,
+    "name": "Seattle",
+    "path": "usa/seattle",
+    "lat": 47.6038321,
+    "lng": -122.330062,
+    "tz": "America/Los_Angeles"
+  },
+  {
+    "id": 215,
+    "name": "Seoul",
+    "path": "south-korea/seoul",
+    "lat": 37.5665,
+    "lng": 126.978,
+    "tz": "Asia/Seoul"
+  },
+  {
+    "id": 237,
+    "name": "Shanghai",
+    "path": "china/shanghai",
+    "lat": 31.2312707,
+    "lng": 121.4700152,
+    "tz": "Asia/Shanghai"
+  },
+  {
+    "id": 236,
+    "name": "Singapore",
+    "path": "singapore/singapore",
+    "lat": 1.3521,
+    "lng": 103.8198,
+    "tz": "Asia/Singapore"
+  },
+  {
+    "id": 240,
+    "name": "Sydney",
+    "path": "australia/sydney",
+    "lat": -33.8688,
+    "lng": 151.2093,
+    "tz": "Australia/Sydney"
+  },
+  {
+    "id": 233,
+    "name": "S\u00e3o Paulo",
+    "path": "brazil/sao-paulo",
+    "lat": -23.5506507,
+    "lng": -46.6333824,
+    "tz": "America/Sao_Paulo"
+  },
+  {
+    "id": 241,
+    "name": "Taipei",
+    "path": "taiwan/taipei",
+    "lat": 25.0375198,
+    "lng": 121.5636796,
+    "tz": "Asia/Taipei"
+  },
+  {
+    "id": 207,
+    "name": "Tokyo",
+    "path": "japan/tokyo",
+    "lat": 35.6762,
+    "lng": 139.6503,
+    "tz": "Asia/Tokyo"
+  },
+  {
+    "id": 250,
+    "name": "Toronto",
+    "path": "canada/toronto",
+    "lat": 43.6534817,
+    "lng": -79.3839347,
+    "tz": "America/Toronto"
+  },
+  {
+    "id": 256,
+    "name": "Vancouver",
+    "path": "canada/vancouver",
+    "lat": 49.2608724,
+    "lng": -123.113952,
+    "tz": "America/Vancouver"
+  },
+  {
+    "id": 259,
+    "name": "Vienna",
+    "path": "austria/vienna",
+    "lat": 48.2083537,
+    "lng": 16.3725042,
+    "tz": "Europe/Vienna"
+  },
+  {
+    "id": 262,
+    "name": "Warsaw",
+    "path": "poland/warsaw",
+    "lat": 52.2333742,
+    "lng": 21.0711489,
+    "tz": "Europe/Warsaw"
+  },
+  {
+    "id": 246,
+    "name": "Wellington",
+    "path": "new-zealand/wellington",
+    "lat": -41.2865,
+    "lng": 174.7762,
+    "tz": "Pacific/Auckland"
+  },
+  {
+    "id": 281,
+    "name": "Zagreb",
+    "path": "croatia/zagreb",
+    "lat": 45.8130967,
+    "lng": 15.9772795,
+    "tz": "Europe/Zagreb"
+  },
+  {
+    "id": 268,
+    "name": "Z\u00fcrich",
+    "path": "switzerland/zurich",
+    "lat": 47.3744489,
+    "lng": 8.5410422,
+    "tz": "Europe/Zurich"
+  }
+]
