@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meeting Planner Launcher</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        background: #f4f6f8;
+        color: #1a2332;
+        line-height: 1.5;
+      }
+
+      .wrap {
+        max-width: 42rem;
+        margin: 0 auto;
+        padding: 2rem 1rem 3rem;
+      }
+
+      header {
+        margin-bottom: 1.75rem;
+      }
+
+      h1 {
+        margin: 0 0 0.35rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+
+      .lede {
+        margin: 0;
+        color: #5a6578;
+        font-size: 0.95rem;
+      }
+
+      .card {
+        background: #fff;
+        border: 1px solid #dde3ea;
+        border-radius: 12px;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+      }
+
+      .card h2 {
+        margin: 0 0 1rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #5a6578;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 0.35rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+      }
+
+      .field {
+        margin-bottom: 1rem;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 0.65rem 0.75rem;
+        border: 1px solid #c5ced8;
+        border-radius: 8px;
+        font: inherit;
+        background: #fff;
+      }
+
+      input[type="text"]:focus {
+        outline: 2px solid #2563eb;
+        outline-offset: 1px;
+        border-color: #2563eb;
+      }
+
+      .hint {
+        margin-top: 0.35rem;
+        font-size: 0.8rem;
+        color: #6b7280;
+      }
+
+      .suggestions {
+        list-style: none;
+        margin: 0.35rem 0 0;
+        padding: 0;
+        border: 1px solid #dde3ea;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #fff;
+      }
+
+      .suggestions:empty {
+        display: none;
+      }
+
+      .suggestions li button {
+        display: block;
+        width: 100%;
+        padding: 0.55rem 0.75rem;
+        border: 0;
+        border-bottom: 1px solid #eef2f6;
+        background: #fff;
+        text-align: left;
+        font: inherit;
+        cursor: pointer;
+      }
+
+      .suggestions li:last-child button {
+        border-bottom: 0;
+      }
+
+      .suggestions li button:hover,
+      .suggestions li button:focus {
+        background: #eff6ff;
+        outline: none;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 1.25rem;
+      }
+
+      button.primary {
+        padding: 0.7rem 1.1rem;
+        border: 0;
+        border-radius: 8px;
+        background: #2563eb;
+        color: #fff;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      button.primary:hover:not(:disabled) {
+        background: #1d4ed8;
+      }
+
+      button.primary:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+      }
+
+      button.secondary {
+        padding: 0.7rem 1.1rem;
+        border: 1px solid #c5ced8;
+        border-radius: 8px;
+        background: #fff;
+        color: #1a2332;
+        font: inherit;
+        cursor: pointer;
+      }
+
+      button.secondary:hover {
+        background: #f8fafc;
+      }
+
+      .result {
+        display: none;
+        margin-top: 1rem;
+        padding: 1rem;
+        border-radius: 8px;
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        font-size: 0.9rem;
+      }
+
+      .result.visible {
+        display: block;
+      }
+
+      .result.error {
+        background: #fef2f2;
+        border-color: #fecaca;
+      }
+
+      .result dl {
+        margin: 0.75rem 0 0;
+        display: grid;
+        gap: 0.5rem;
+      }
+
+      .result dt {
+        font-weight: 600;
+        font-size: 0.8rem;
+        color: #5a6578;
+      }
+
+      .result dd {
+        margin: 0.15rem 0 0;
+      }
+
+      .note {
+        margin-top: 0.75rem;
+        font-size: 0.82rem;
+        color: #6b7280;
+      }
+
+      .link-row {
+        margin-top: 0.75rem;
+        word-break: break-all;
+      }
+
+      .link-row a {
+        color: #2563eb;
+      }
+
+      .spinner {
+        display: inline-block;
+        width: 1rem;
+        height: 1rem;
+        border: 2px solid #cbd5e1;
+        border-top-color: #2563eb;
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+        vertical-align: -0.2rem;
+        margin-right: 0.35rem;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      footer {
+        margin-top: 1.5rem;
+        font-size: 0.8rem;
+        color: #6b7280;
+      }
+
+      footer a {
+        color: #2563eb;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>Meeting Planner Launcher</h1>
+        <p class="lede">
+          Type any place in the world, resolve its timezone, and open
+          <a href="https://www.timeanddate.com/worldclock/meeting.html" target="_blank" rel="noopener">timeanddate.com Meeting Planner</a>
+          with your location and theirs pre-filled.
+        </p>
+      </header>
+
+      <div class="card">
+        <h2>Your location</h2>
+        <div class="field">
+          <label for="my-location">Where are you?</label>
+          <input id="my-location" type="text" placeholder="e.g. Christchurch, New Zealand" autocomplete="off" />
+          <p class="hint">Saved in this browser. Use “Use my device timezone” if you’re unsure.</p>
+          <ul id="my-suggestions" class="suggestions" role="listbox"></ul>
+        </div>
+        <button type="button" class="secondary" id="use-device-tz">Use my device timezone</button>
+      </div>
+
+      <div class="card">
+        <h2>Contact location</h2>
+        <div class="field">
+          <label for="their-location">Where is the other person?</label>
+          <input
+            id="their-location"
+            type="text"
+            placeholder="e.g. Bangalore, India or 123 Main St, Austin TX"
+            autocomplete="off"
+          />
+          <ul id="their-suggestions" class="suggestions" role="listbox"></ul>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="primary" id="open-planner">Open Meeting Planner</button>
+          <button type="button" class="secondary" id="resolve-only">Preview match</button>
+        </div>
+
+        <div id="result" class="result" aria-live="polite"></div>
+      </div>
+
+      <footer>
+        Geocoding via <a href="https://photon.komoot.io/" target="_blank" rel="noopener">Photon</a> (OpenStreetMap).
+        Timezones via <a href="https://timeapi.io/" target="_blank" rel="noopener">TimeAPI.io</a>.
+        Planner opens on timeanddate.com with the nearest listed city in the same timezone when an exact match isn’t available.
+      </footer>
+    </div>
+
+    <script>
+      const STORAGE_KEY = "meeting-planner-my-location";
+      const MEETING_BASE = "https://www.timeanddate.com/worldclock/meetingtime.html";
+
+      /** @type {Array<{id:number,name:string,path:string,lat:number,lng:number,tz?:string}>} */
+      let cities = [];
+
+      const el = {
+        myLocation: document.getElementById("my-location"),
+        theirLocation: document.getElementById("their-location"),
+        mySuggestions: document.getElementById("my-suggestions"),
+        theirSuggestions: document.getElementById("their-suggestions"),
+        openPlanner: document.getElementById("open-planner"),
+        resolveOnly: document.getElementById("resolve-only"),
+        useDeviceTz: document.getElementById("use-device-tz"),
+        result: document.getElementById("result"),
+      };
+
+      function haversineKm(lat1, lon1, lat2, lon2) {
+        const r = 6371;
+        const dLat = ((lat2 - lat1) * Math.PI) / 180;
+        const dLon = ((lon2 - lon1) * Math.PI) / 180;
+        const a =
+          Math.sin(dLat / 2) ** 2 +
+          Math.cos((lat1 * Math.PI) / 180) *
+            Math.cos((lat2 * Math.PI) / 180) *
+            Math.sin(dLon / 2) ** 2;
+        return 2 * r * Math.asin(Math.sqrt(a));
+      }
+
+      function normalize(s) {
+        return s
+          .toLowerCase()
+          .normalize("NFKD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^a-z0-9\s]/g, " ")
+          .replace(/\s+/g, " ")
+          .trim();
+      }
+
+      function nameScore(queryName, cityName) {
+        const q = normalize(queryName);
+        const c = normalize(cityName);
+        if (!q || !c) return 0;
+        if (q === c) return 100;
+        if (q.includes(c) || c.includes(q)) return 80;
+        const qParts = q.split(" ");
+        const cParts = c.split(" ");
+        const overlap = qParts.filter((p) => cParts.includes(p)).length;
+        return overlap * 15;
+      }
+
+      function pickCity(geo, timezone) {
+        const lat = parseFloat(geo.lat);
+        const lng = parseFloat(geo.lon);
+        const geoName = geo.display_name || geo.name || "";
+
+        let best = null;
+        let bestScore = -Infinity;
+
+        for (const city of cities) {
+          if (city.lat == null || city.lng == null) continue;
+          const dist = haversineKm(lat, lng, city.lat, city.lng);
+          let score = Math.max(0, 120 - dist / 15);
+          score += nameScore(geoName, city.name);
+          if (city.tz && city.tz === timezone) score += 40;
+          if (dist < 80 && score > bestScore) {
+            bestScore = score;
+            best = { city, dist, proxy: dist > 25 || nameScore(geoName, city.name) < 50 };
+          }
+        }
+
+        if (!best) {
+          const sameTz = cities.filter((c) => c.tz === timezone);
+          const pool = sameTz.length ? sameTz : cities;
+          for (const city of pool) {
+            if (city.lat == null || city.lng == null) continue;
+            const dist = haversineKm(lat, lng, city.lat, city.lng);
+            const score = 100 - dist / 20 + (city.tz === timezone ? 30 : 0);
+            if (score > bestScore) {
+              bestScore = score;
+              best = { city, dist, proxy: true };
+            }
+          }
+        }
+
+        return best;
+      }
+
+      async function geocode(query) {
+        const photonUrl =
+          "https://photon.komoot.io/api/?" +
+          new URLSearchParams({ q: query, limit: "5", lang: "en" });
+        const photonRes = await fetch(photonUrl);
+        if (photonRes.ok) {
+          const photon = await photonRes.json();
+          if (photon.features?.length) {
+            const f = photon.features[0];
+            const [lon, lat] = f.geometry.coordinates;
+            const p = f.properties;
+            const parts = [p.name, p.city, p.state, p.country].filter(Boolean);
+            return {
+              lat: String(lat),
+              lon: String(lon),
+              display_name: [...new Set(parts)].join(", "),
+              name: p.name,
+            };
+          }
+        }
+
+        const url =
+          "https://nominatim.openstreetmap.org/search?" +
+          new URLSearchParams({
+            q: query,
+            format: "json",
+            limit: "5",
+            addressdetails: "1",
+          });
+        const res = await fetch(url, {
+          headers: { Accept: "application/json" },
+        });
+        if (!res.ok) throw new Error("Geocoding failed. Try a more specific place name.");
+        const data = await res.json();
+        if (!data.length) throw new Error("No location found. Try adding a country or region.");
+        return data[0];
+      }
+
+      async function fetchTimezone(lat, lng) {
+        const url = `https://timeapi.io/api/TimeZone/coordinate?latitude=${lat}&longitude=${lng}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error("Could not resolve timezone for this location.");
+        const data = await res.json();
+        return data.timeZone;
+      }
+
+      async function resolveLocation(query) {
+        const geo = await geocode(query);
+        const tz = await fetchTimezone(geo.lat, geo.lon);
+        const match = pickCity(geo, tz);
+        if (!match) throw new Error("Could not map this place to a timeanddate.com city.");
+        return {
+          query,
+          displayName: geo.display_name,
+          lat: parseFloat(geo.lat),
+          lng: parseFloat(geo.lon),
+          timezone: tz,
+          city: match.city,
+          distanceKm: Math.round(match.dist),
+          isProxy: match.proxy,
+        };
+      }
+
+      function meetingUrl(myId, theirId) {
+        return `${MEETING_BASE}?p1=${myId}&p2=${theirId}`;
+      }
+
+      function renderResult(myResolved, theirResolved, url) {
+        const proxyNote = (r) =>
+          r.isProxy
+            ? ` <span class="note">(using ${r.city.name} — nearest timeanddate.com city, ~${r.distanceKm} km away)</span>`
+            : "";
+
+        el.result.className = "result visible";
+        el.result.innerHTML = `
+          <strong>Ready to compare times</strong>
+          <dl>
+            <div>
+              <dt>You</dt>
+              <dd>${myResolved.displayName}<br />
+                Timezone: <strong>${myResolved.timezone}</strong> → planner city: <strong>${myResolved.city.name}</strong>${proxyNote(myResolved)}
+              </dd>
+            </div>
+            <div>
+              <dt>Contact</dt>
+              <dd>${theirResolved.displayName}<br />
+                Timezone: <strong>${theirResolved.timezone}</strong> → planner city: <strong>${theirResolved.city.name}</strong>${proxyNote(theirResolved)}
+              </dd>
+            </div>
+          </dl>
+          <div class="link-row"><a href="${url}" target="_blank" rel="noopener">Open Meeting Planner</a></div>
+        `;
+      }
+
+      function showError(message) {
+        el.result.className = "result visible error";
+        el.result.innerHTML = `<strong>Something went wrong</strong><p>${message}</p>`;
+      }
+
+      function setBusy(busy) {
+        el.openPlanner.disabled = busy;
+        el.resolveOnly.disabled = busy;
+        if (busy) {
+          el.openPlanner.innerHTML = '<span class="spinner"></span>Resolving…';
+        } else {
+          el.openPlanner.textContent = "Open Meeting Planner";
+        }
+      }
+
+      async function run(openWindow) {
+        const myQuery = el.myLocation.value.trim();
+        const theirQuery = el.theirLocation.value.trim();
+        if (!myQuery || !theirQuery) {
+          showError("Enter both your location and the contact’s location.");
+          return;
+        }
+
+        localStorage.setItem(STORAGE_KEY, myQuery);
+        setBusy(true);
+        el.result.className = "result";
+
+        try {
+          const [myResolved, theirResolved] = await Promise.all([
+            resolveLocation(myQuery),
+            resolveLocation(theirQuery),
+          ]);
+          const url = meetingUrl(myResolved.city.id, theirResolved.city.id);
+          renderResult(myResolved, theirResolved, url);
+          if (openWindow) window.open(url, "_blank", "noopener,noreferrer");
+        } catch (err) {
+          showError(err instanceof Error ? err.message : String(err));
+        } finally {
+          setBusy(false);
+        }
+      }
+
+      let suggestTimer = null;
+      function wireSuggestions(input, list, onPick) {
+        input.addEventListener("input", () => {
+          clearTimeout(suggestTimer);
+          const q = input.value.trim();
+          if (q.length < 3) {
+            list.innerHTML = "";
+            return;
+          }
+          suggestTimer = setTimeout(async () => {
+            try {
+              const url = "https://photon.komoot.io/api/?" + new URLSearchParams({ q, limit: "5", lang: "en" });
+              const res = await fetch(url);
+              const data = await res.json();
+              const items = (data.features || []).map((f) => {
+                const p = f.properties;
+                const parts = [p.name, p.city, p.state, p.country].filter(Boolean);
+                return {
+                  display_name: [...new Set(parts)].join(", "),
+                  lat: f.geometry.coordinates[1],
+                  lon: f.geometry.coordinates[0],
+                };
+              });
+              list.innerHTML = items
+                .map(
+                  (item, i) =>
+                    `<li><button type="button" data-idx="${i}">${item.display_name}</button></li>`
+                )
+                .join("");
+              list.querySelectorAll("button").forEach((btn, i) => {
+                btn.addEventListener("click", () => {
+                  input.value = items[i].display_name;
+                  list.innerHTML = "";
+                  onPick?.(items[i]);
+                });
+              });
+            } catch {
+              list.innerHTML = "";
+            }
+          }, 350);
+        });
+      }
+
+      function guessCityFromDeviceTimezone() {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const exact = cities.find((c) => c.tz === tz);
+        if (exact) return exact.name + (tz.includes("Auckland") ? ", New Zealand" : "");
+        const map = {
+          "Pacific/Auckland": "Christchurch, New Zealand",
+          "Australia/Sydney": "Sydney, Australia",
+          "Europe/London": "London, United Kingdom",
+          "America/Los_Angeles": "Los Angeles, USA",
+          "America/New_York": "New York, USA",
+          "America/Chicago": "Chicago, USA",
+          "Asia/Singapore": "Singapore",
+          "Asia/Tokyo": "Tokyo, Japan",
+          "Asia/Kolkata": "Mumbai, India",
+        };
+        return map[tz] || tz.replace(/_/g, " ").replace("/", ", ");
+      }
+
+      async function init() {
+        try {
+          const res = await fetch("./timeanddate-cities.json");
+          cities = await res.json();
+        } catch {
+          showError("Could not load city database. Serve this page from the public folder (e.g. npm run dev).");
+          return;
+        }
+
+        const saved = localStorage.getItem(STORAGE_KEY);
+        el.myLocation.value = saved || guessCityFromDeviceTimezone();
+
+        wireSuggestions(el.myLocation, el.mySuggestions);
+        wireSuggestions(el.theirLocation, el.theirSuggestions);
+
+        el.openPlanner.addEventListener("click", () => run(true));
+        el.resolveOnly.addEventListener("click", () => run(false));
+        el.useDeviceTz.addEventListener("click", () => {
+          el.myLocation.value = guessCityFromDeviceTimezone();
+          localStorage.setItem(STORAGE_KEY, el.myLocation.value);
+        });
+      }
+
+      init();
+    </script>
+  </body>
+</html>
