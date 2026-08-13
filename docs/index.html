@@ -66,8 +66,12 @@
         font-weight: 600;
       }
 
-      .field {
-        margin-bottom: 1rem;
+      .person-field {
+        margin-bottom: 1.1rem;
+      }
+
+      .person-field:last-of-type {
+        margin-bottom: 0;
       }
 
       input[type="text"] {
@@ -252,35 +256,17 @@
       <header>
         <h1>Meeting Planner Launcher</h1>
         <p class="lede">
-          Type any place in the world, resolve its timezone, and open
+          Add up to five locations, resolve their timezones, and open
           <a href="https://www.timeanddate.com/worldclock/meeting.html" target="_blank" rel="noopener">timeanddate.com Meeting Planner</a>
-          with your location and theirs pre-filled.
+          with everyone pre-filled.
         </p>
       </header>
 
       <div class="card">
-        <h2>Your location</h2>
-        <div class="field">
-          <label for="my-location">Where are you?</label>
-          <input id="my-location" type="text" placeholder="e.g. Christchurch, New Zealand" autocomplete="off" />
-          <p class="hint">Saved in this browser. Use “Use my device timezone” if you’re unsure.</p>
-          <ul id="my-suggestions" class="suggestions" role="listbox"></ul>
-        </div>
-        <button type="button" class="secondary" id="use-device-tz">Use my device timezone</button>
-      </div>
-
-      <div class="card">
-        <h2>Contact location</h2>
-        <div class="field">
-          <label for="their-location">Where is the other person?</label>
-          <input
-            id="their-location"
-            type="text"
-            placeholder="e.g. Bangalore, India or 123 Main St, Austin TX"
-            autocomplete="off"
-          />
-          <ul id="their-suggestions" class="suggestions" role="listbox"></ul>
-        </div>
+        <h2>Locations</h2>
+        <div id="person-fields"></div>
+        <p class="hint">Enter at least two locations. Empty fields are skipped.</p>
+        <button type="button" class="secondary" id="use-device-tz">Use device timezone for Person 1</button>
 
         <div class="actions">
           <button type="button" class="primary" id="open-planner">Open Meeting Planner</button>
@@ -298,22 +284,23 @@
     </div>
 
     <script>
-      const STORAGE_KEY = "meeting-planner-my-location";
+      const PERSON_COUNT = 5;
+      const STORAGE_KEY = "meeting-planner-locations";
       const MEETING_BASE = "https://www.timeanddate.com/worldclock/meetingtime.html";
 
       /** @type {Array<{id:number,name:string,path:string,lat:number,lng:number,tz?:string}>} */
       let cities = [];
 
       const el = {
-        myLocation: document.getElementById("my-location"),
-        theirLocation: document.getElementById("their-location"),
-        mySuggestions: document.getElementById("my-suggestions"),
-        theirSuggestions: document.getElementById("their-suggestions"),
+        personFields: document.getElementById("person-fields"),
         openPlanner: document.getElementById("open-planner"),
         resolveOnly: document.getElementById("resolve-only"),
         useDeviceTz: document.getElementById("use-device-tz"),
         result: document.getElementById("result"),
       };
+
+      /** @type {Array<{input: HTMLInputElement, suggestions: HTMLUListElement}>} */
+      let persons = [];
 
       function haversineKm(lat1, lon1, lat2, lon2) {
         const r = 6371;
@@ -449,32 +436,33 @@
         };
       }
 
-      function meetingUrl(myId, theirId) {
-        return `${MEETING_BASE}?p1=${myId}&p2=${theirId}`;
+      function meetingUrl(cityIds) {
+        const params = cityIds.map((id, i) => `p${i + 1}=${id}`).join("&");
+        return `${MEETING_BASE}?${params}`;
       }
 
-      function renderResult(myResolved, theirResolved, url) {
-        const proxyNote = (r) =>
-          r.isProxy
-            ? ` <span class="note">(using ${r.city.name} — nearest timeanddate.com city, ~${r.distanceKm} km away)</span>`
-            : "";
+      function proxyNote(r) {
+        return r.isProxy
+          ? ` <span class="note">(using ${r.city.name} — nearest timeanddate.com city, ~${r.distanceKm} km away)</span>`
+          : "";
+      }
 
+      function renderResult(resolved, url) {
         el.result.className = "result visible";
         el.result.innerHTML = `
           <strong>Ready to compare times</strong>
           <dl>
-            <div>
-              <dt>You</dt>
-              <dd>${myResolved.displayName}<br />
-                Timezone: <strong>${myResolved.timezone}</strong> → planner city: <strong>${myResolved.city.name}</strong>${proxyNote(myResolved)}
-              </dd>
-            </div>
-            <div>
-              <dt>Contact</dt>
-              <dd>${theirResolved.displayName}<br />
-                Timezone: <strong>${theirResolved.timezone}</strong> → planner city: <strong>${theirResolved.city.name}</strong>${proxyNote(theirResolved)}
-              </dd>
-            </div>
+            ${resolved
+              .map(
+                (r) => `
+              <div>
+                <dt>${r.label}</dt>
+                <dd>${r.displayName}<br />
+                  Timezone: <strong>${r.timezone}</strong> → planner city: <strong>${r.city.name}</strong>${proxyNote(r)}
+                </dd>
+              </div>`
+              )
+              .join("")}
           </dl>
           <div class="link-row"><a href="${url}" target="_blank" rel="noopener">Open Meeting Planner</a></div>
         `;
@@ -495,25 +483,52 @@
         }
       }
 
+      function saveLocations() {
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify(persons.map((p) => p.input.value))
+        );
+      }
+
+      function loadLocations() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+          if (!Array.isArray(saved)) return [];
+          return saved.slice(0, PERSON_COUNT);
+        } catch {
+          return [];
+        }
+      }
+
+      function getFilledEntries() {
+        return persons
+          .map((p, i) => ({ index: i, query: p.input.value.trim() }))
+          .filter((entry) => entry.query);
+      }
+
       async function run(openWindow) {
-        const myQuery = el.myLocation.value.trim();
-        const theirQuery = el.theirLocation.value.trim();
-        if (!myQuery || !theirQuery) {
-          showError("Enter both your location and the contact’s location.");
+        const entries = getFilledEntries();
+        if (entries.length < 2) {
+          showError("Enter at least two locations (e.g. Person 1 and Person 2).");
           return;
         }
 
-        localStorage.setItem(STORAGE_KEY, myQuery);
+        saveLocations();
         setBusy(true);
         el.result.className = "result";
 
         try {
-          const [myResolved, theirResolved] = await Promise.all([
-            resolveLocation(myQuery),
-            resolveLocation(theirQuery),
-          ]);
-          const url = meetingUrl(myResolved.city.id, theirResolved.city.id);
-          renderResult(myResolved, theirResolved, url);
+          const resolved = await Promise.all(
+            entries.map(async (entry) => {
+              const result = await resolveLocation(entry.query);
+              return {
+                ...result,
+                label: `Person ${entry.index + 1}`,
+              };
+            })
+          );
+          const url = meetingUrl(resolved.map((r) => r.city.id));
+          renderResult(resolved, url);
           if (openWindow) window.open(url, "_blank", "noopener,noreferrer");
         } catch (err) {
           showError(err instanceof Error ? err.message : String(err));
@@ -523,7 +538,7 @@
       }
 
       let suggestTimer = null;
-      function wireSuggestions(input, list, onPick) {
+      function wireSuggestions(input, list) {
         input.addEventListener("input", () => {
           clearTimeout(suggestTimer);
           const q = input.value.trim();
@@ -541,8 +556,6 @@
                 const parts = [p.name, p.city, p.state, p.country].filter(Boolean);
                 return {
                   display_name: [...new Set(parts)].join(", "),
-                  lat: f.geometry.coordinates[1],
-                  lon: f.geometry.coordinates[0],
                 };
               });
               list.innerHTML = items
@@ -555,7 +568,7 @@
                 btn.addEventListener("click", () => {
                   input.value = items[i].display_name;
                   list.innerHTML = "";
-                  onPick?.(items[i]);
+                  saveLocations();
                 });
               });
             } catch {
@@ -583,6 +596,34 @@
         return map[tz] || tz.replace(/_/g, " ").replace("/", ", ");
       }
 
+      function buildPersonFields() {
+        const saved = loadLocations();
+        el.personFields.innerHTML = "";
+
+        for (let i = 0; i < PERSON_COUNT; i++) {
+          const field = document.createElement("div");
+          field.className = "person-field";
+          field.innerHTML = `
+            <label for="person-${i + 1}">Person ${i + 1}</label>
+            <input
+              id="person-${i + 1}"
+              type="text"
+              placeholder="${i === 0 ? "e.g. Christchurch, New Zealand" : "e.g. Bangalore, India"}"
+              autocomplete="off"
+            />
+            <ul id="person-${i + 1}-suggestions" class="suggestions" role="listbox"></ul>
+          `;
+          el.personFields.appendChild(field);
+
+          const input = field.querySelector("input");
+          const suggestions = field.querySelector(".suggestions");
+          input.value = saved[i] || "";
+          wireSuggestions(input, suggestions);
+          input.addEventListener("change", saveLocations);
+          persons.push({ input, suggestions });
+        }
+      }
+
       async function init() {
         try {
           const res = await fetch("./timeanddate-cities.json");
@@ -592,17 +633,18 @@
           return;
         }
 
-        const saved = localStorage.getItem(STORAGE_KEY);
-        el.myLocation.value = saved || guessCityFromDeviceTimezone();
+        buildPersonFields();
 
-        wireSuggestions(el.myLocation, el.mySuggestions);
-        wireSuggestions(el.theirLocation, el.theirSuggestions);
+        if (!persons[0].input.value) {
+          persons[0].input.value = guessCityFromDeviceTimezone();
+          saveLocations();
+        }
 
         el.openPlanner.addEventListener("click", () => run(true));
         el.resolveOnly.addEventListener("click", () => run(false));
         el.useDeviceTz.addEventListener("click", () => {
-          el.myLocation.value = guessCityFromDeviceTimezone();
-          localStorage.setItem(STORAGE_KEY, el.myLocation.value);
+          persons[0].input.value = guessCityFromDeviceTimezone();
+          saveLocations();
         });
       }
 
