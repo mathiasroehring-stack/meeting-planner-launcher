@@ -24,7 +24,7 @@
     "tz": "America/New_York"
   },
   {
-    "id": 176,
+    "id": 22,
     "name": "Auckland",
     "path": "new-zealand/auckland",
     "lat": -36.8509,
@@ -512,7 +512,7 @@
     "tz": "Europe/Warsaw"
   },
   {
-    "id": 246,
+    "id": 264,
     "name": "Wellington",
     "path": "new-zealand/wellington",
     "lat": -41.2865,

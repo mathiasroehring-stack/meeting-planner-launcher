@@ -1,0 +1,22 @@
+[
+  {"id": 152, "name": "Melbourne", "path": "australia/melbourne", "lat": -37.8136, "lng": 144.9631, "tz": "Australia/Melbourne"},
+  {"id": 240, "name": "Sydney", "path": "australia/sydney", "lat": -33.8688, "lng": 151.2093, "tz": "Australia/Sydney"},
+  {"id": 64, "name": "Chicago", "path": "usa/chicago", "lat": 41.8781, "lng": -87.6298, "tz": "America/Chicago"},
+  {"id": 770, "name": "San Diego", "path": "usa/san-diego", "lat": 32.7157, "lng": -117.1611, "tz": "America/Los_Angeles"},
+  {"id": 37, "name": "Berlin", "path": "germany/berlin", "lat": 52.52, "lng": 13.405, "tz": "Europe/Berlin"},
+  {"id": 195, "name": "Paris", "path": "france/paris", "lat": 48.8566, "lng": 2.3522, "tz": "Europe/Paris"},
+  {"id": 33, "name": "Beijing", "path": "china/beijing", "lat": 39.9042, "lng": 116.4074, "tz": "Asia/Shanghai"},
+  {"id": 22, "name": "Auckland", "path": "new-zealand/auckland", "lat": -36.8509, "lng": 174.7645, "tz": "Pacific/Auckland"},
+  {"id": 264, "name": "Wellington", "path": "new-zealand/wellington", "lat": -41.2865, "lng": 174.7762, "tz": "Pacific/Auckland"},
+  {"id": 951, "name": "Christchurch", "path": "new-zealand/christchurch", "lat": -43.532, "lng": 172.636, "tz": "Pacific/Auckland"},
+  {"id": 139, "name": "San Francisco", "path": "usa/san-francisco", "lat": 37.7749, "lng": -122.4194, "tz": "America/Los_Angeles"},
+  {"id": 207, "name": "Tokyo", "path": "japan/tokyo", "lat": 35.6762, "lng": 139.6503, "tz": "Asia/Tokyo"},
+  {"id": 196, "name": "Mumbai", "path": "india/mumbai", "lat": 19.076, "lng": 72.8777, "tz": "Asia/Kolkata"},
+  {"id": 104, "name": "Bangalore", "path": "india/bangalore", "lat": 12.9716, "lng": 77.5946, "tz": "Asia/Kolkata"},
+  {"id": 166, "name": "Dubai", "path": "uae/dubai", "lat": 25.2048, "lng": 55.2708, "tz": "Asia/Dubai"},
+  {"id": 144, "name": "Hong Kong", "path": "china/hong-kong", "lat": 22.3193, "lng": 114.1694, "tz": "Asia/Hong_Kong"},
+  {"id": 215, "name": "Seoul", "path": "south-korea/seoul", "lat": 37.5665, "lng": 126.978, "tz": "Asia/Seoul"},
+  {"id": 175, "name": "Dublin", "path": "ireland/dublin", "lat": 53.3498, "lng": -6.2603, "tz": "Europe/Dublin"},
+  {"id": 136, "name": "London", "path": "uk/london", "lat": 51.5074, "lng": -0.1278, "tz": "Europe/London"},
+  {"id": 236, "name": "Singapore", "path": "singapore/singapore", "lat": 1.3521, "lng": 103.8198, "tz": "Asia/Singapore"}
+]
